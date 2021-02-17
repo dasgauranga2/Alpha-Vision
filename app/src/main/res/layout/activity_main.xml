@@ -48,6 +48,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:onClick="new_directory"
             android:paddingLeft="25sp"
             android:paddingTop="20sp"
             android:paddingRight="25sp"
