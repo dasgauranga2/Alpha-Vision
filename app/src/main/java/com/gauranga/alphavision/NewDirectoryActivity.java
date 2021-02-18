@@ -1,5 +1,6 @@
 package com.gauranga.alphavision;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,10 +12,19 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,7 +88,42 @@ public class NewDirectoryActivity extends AppCompatActivity {
             image_uris.add(image_uri);
             // setup the recycler view
             setup_recyclerview();
+            // generate keywords
+            generate_keywords(image_uri);
         }
+    }
+
+    // given the uri of an image
+    // generate the keywords
+    public void generate_keywords(Uri uri) {
+
+        Bitmap bitmap = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.i("TEXT_BLOCK_IMG_DIM", bitmap.getWidth() + " " + bitmap.getHeight());
+        InputImage input_image = InputImage.fromBitmap(bitmap, 0);
+        TextRecognizer recognizer = TextRecognition.getClient();
+        Task<Text> result = recognizer.process(input_image)
+                        .addOnSuccessListener(new OnSuccessListener<Text>() {
+                            @Override
+                            public void onSuccess(Text visionText) {
+                                String resultText = visionText.getText();
+                                for (Text.TextBlock block : visionText.getTextBlocks()) {
+                                    String blockText = block.getText();
+                                    Log.i("TEXT_BLOCK", blockText);
+                                }
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "TEXT RECOGNITION FAILED", Toast.LENGTH_SHORT).show();
+                            }
+                        });
     }
 
     @Override
