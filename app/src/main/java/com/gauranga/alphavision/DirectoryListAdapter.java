@@ -1,12 +1,15 @@
 package com.gauranga.alphavision;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
@@ -34,18 +37,19 @@ public class DirectoryListAdapter extends RecyclerView.Adapter<DirectoryListAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        // use the data passed to the adapter above
-        // and set the data to the text view below
+        // display the name of the directory
         holder.text.setText(image_dirs[position].getName());
 
-        // detect if an item is clicked using the root layout of the 'row.xml' file
-//        holder.main_layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // display the language of the row that is clicked
-//                Toast.makeText(context, data1[position], Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        // detect if an item is clicked
+        holder.dir_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ImageListActivity.class);
+                // pass the path of the image directory clicked
+                intent.putExtra("DIR_NAME",image_dirs[position].getAbsolutePath());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -58,12 +62,12 @@ public class DirectoryListAdapter extends RecyclerView.Adapter<DirectoryListAdap
         // Each row will contain one text view
         // for displaying the data
         TextView text;
-        // Select the root layout of the 'row.xml' file
-        //ConstraintLayout main_layout;
+        ConstraintLayout dir_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text = itemView.findViewById(R.id.directoryText);
+            dir_layout = itemView.findViewById(R.id.directory_layout);
             //main_layout = itemView.findViewById(R.id.row_layout);
         }
     }

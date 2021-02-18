@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all the data is stored
         File root_dir = wrapper.getDir("IMAGES5", MODE_PRIVATE);
-        // array of all the sub-directories
+        // array of all the sub-directories we created
         File[] files = root_dir.listFiles();
 
         // setup recyclerview to display the list of all the directories
