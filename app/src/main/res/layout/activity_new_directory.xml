@@ -11,8 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="200dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/directoryNameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,20 +52,21 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createDirectoryButton"
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
         android:background="@drawable/button_bg"
-        android:text="SAVE"
+        android:onClick="create_directory"
+        android:text="CREATE"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/directoryNameText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -74,19 +75,8 @@
         android:ems="10"
         android:hint="Type directory name"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/createDirectoryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/button_bg" />
 </androidx.constraintlayout.widget.ConstraintLayout>
