@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -38,6 +41,7 @@ public class NewDirectoryActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 100;
     List<Uri> image_uris;
+    List<Integer> image_orientations;
     EditText directory_name;
 
     // add new image to the directory
@@ -55,13 +59,20 @@ public class NewDirectoryActivity extends AppCompatActivity {
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all data is stored
-        File root_dir = wrapper.getDir("IMAGES5", MODE_PRIVATE);
+        File root_dir = wrapper.getDir("IMAGES6", MODE_PRIVATE);
         // sub-directory we want to create
         File new_dir = new File(root_dir, name);
         // create the sub-directory
         new_dir.mkdir();
-        for (Uri image_uri : image_uris) {
+        for (int i=0; i<image_uris.size(); i++) {
+            Uri image_uri = image_uris.get(i);
+            int orientation = image_orientations.get(i);
+            // create bitmap from image uri
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), image_uri);
+            Matrix matrix = new Matrix();
+            matrix.postRotate(orientation);
+            // rotate the bitmap according to image orientation
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
             // create an image file in the sub-directory
             File image_file = new File(new_dir, System.currentTimeMillis() + ".jpg");
             OutputStream stream = null;
@@ -88,8 +99,15 @@ public class NewDirectoryActivity extends AppCompatActivity {
             image_uris.add(image_uri);
             // setup the recycler view
             setup_recyclerview();
-            // generate keywords
-            generate_keywords(image_uri);
+            // get the orientation of the image
+            String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+            Cursor cur = getContentResolver().query(image_uri, orientationColumn, null, null, null);
+            int orientation = -1;
+            if (cur != null && cur.moveToFirst()) {
+                orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+            }
+            // add the image orientation to the list
+            image_orientations.add(orientation);
         }
     }
 
@@ -130,6 +148,7 @@ public class NewDirectoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_directory);
 
         image_uris = new LinkedList<>();
+        image_orientations = new LinkedList<>();
         directory_name = findViewById(R.id.directoryNameText);
     }
 

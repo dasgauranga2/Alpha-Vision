@@ -3,11 +3,14 @@ package com.gauranga.alphavision;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,10 +42,19 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // use the data passed to the adapter above
         // and set the data to the text views below
-//        holder.lang.setText(data1[position]);
-//        holder.desc.setText(data2[position]);
         File image_file = image_files[position];
         Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
+
+        try {
+            ExifInterface exif = new ExifInterface(image_file.getAbsolutePath());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,1);
+            Toast.makeText(context, String.valueOf(orientation), Toast.LENGTH_SHORT).show();
+        }
+        catch (Exception e) {
+            Toast.makeText(context, "FAILED", Toast.LENGTH_SHORT).show();
+            Log.i("FAILED_OR", e.toString());
+        }
+
         holder.image.setImageBitmap(bitmap);
     }
 
