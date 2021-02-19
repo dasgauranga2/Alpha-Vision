@@ -97,33 +97,31 @@ public class NewDirectoryActivity extends AppCompatActivity {
     // generate the keywords
     public void generate_keywords(Uri uri) {
 
-        Bitmap bitmap = null;
+        InputImage input_image;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+            input_image = InputImage.fromFilePath(getApplicationContext(), uri);
+            TextRecognizer recognizer = TextRecognition.getClient();
+            Task<Text> result = recognizer.process(input_image)
+                    .addOnSuccessListener(new OnSuccessListener<Text>() {
+                        @Override
+                        public void onSuccess(Text visionText) {
+                            String resultText = visionText.getText();
+                            for (Text.TextBlock block : visionText.getTextBlocks()) {
+                                String blockText = block.getText();
+                                Log.i("TEXT_BLOCK", blockText);
+                            }
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "TEXT RECOGNITION FAILED", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.i("TEXT_BLOCK_IMG_DIM", bitmap.getWidth() + " " + bitmap.getHeight());
-        InputImage input_image = InputImage.fromBitmap(bitmap, 0);
-        TextRecognizer recognizer = TextRecognition.getClient();
-        Task<Text> result = recognizer.process(input_image)
-                        .addOnSuccessListener(new OnSuccessListener<Text>() {
-                            @Override
-                            public void onSuccess(Text visionText) {
-                                String resultText = visionText.getText();
-                                for (Text.TextBlock block : visionText.getTextBlocks()) {
-                                    String blockText = block.getText();
-                                    Log.i("TEXT_BLOCK", blockText);
-                                }
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(), "TEXT RECOGNITION FAILED", Toast.LENGTH_SHORT).show();
-                            }
-                        });
     }
 
     @Override
