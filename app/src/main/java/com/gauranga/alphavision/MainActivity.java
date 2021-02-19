@@ -23,6 +23,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // search for images
+    public void search_image(View view) {
+        Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
