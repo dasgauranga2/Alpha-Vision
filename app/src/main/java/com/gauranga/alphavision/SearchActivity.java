@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContextWrapper;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -17,6 +19,10 @@ public class SearchActivity extends AppCompatActivity {
     List<File> image_files;
     File root_dir;
     File[] dirs;
+
+    public void search_images(View view) {
+        Toast.makeText(getApplicationContext(), "BUTTON CLICKED", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
