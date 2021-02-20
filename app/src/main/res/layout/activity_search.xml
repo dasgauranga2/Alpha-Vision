@@ -13,11 +13,11 @@
         app:layout_constraintBottom_toTopOf="@+id/searchLinearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/statusText" />
 
     <LinearLayout
         android:id="@+id/searchLinearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="75dp"
         android:background="#1D77FF"
         android:orientation="horizontal"
@@ -58,4 +58,20 @@
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="#57CF00"
+        android:fontFamily="@font/overpass_bold"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingLeft="10sp"
+        android:text="All images"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

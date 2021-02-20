@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText search;
     File root_dir;
     File[] dirs;
-    LinearLayout search_layout;
+    TextView status;
 
     // search for images
     // that have the required text
@@ -77,6 +78,9 @@ public class SearchActivity extends AppCompatActivity {
     // iterate over all the created directories
     // and then iterate over all the image files
     public void search(String search_word) {
+
+        status.setText(String.valueOf("Searching"));
+
         for (File dir : dirs) {
             for (File image_file : dir.listFiles()) {
                 // get the image in bitmap format
@@ -98,6 +102,7 @@ public class SearchActivity extends AppCompatActivity {
                                     // contains the word entered by the user
                                     if (blockText.contains(search_word)) {
                                         image_files.add(image_file);
+                                        status.setText(image_files.size() + " images found");
                                         setup_recyclerview();
                                         break;
                                     }
@@ -112,6 +117,10 @@ public class SearchActivity extends AppCompatActivity {
                         });
             }
         }
+
+        if (image_files.size()==0) {
+            status.setText("No images found");
+        }
     }
 
     @Override
@@ -123,6 +132,7 @@ public class SearchActivity extends AppCompatActivity {
         image_files = new LinkedList<>();
         search = findViewById(R.id.searchImageText);
         recyclerView = findViewById(R.id.searchRecyclerView);
+        status = findViewById(R.id.statusText);
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all the data is stored

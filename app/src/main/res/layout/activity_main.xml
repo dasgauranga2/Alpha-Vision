@@ -52,7 +52,7 @@
             android:onClick="new_directory"
             android:paddingLeft="30sp"
             android:paddingTop="20sp"
-            android:paddingRight="15sp"
+            android:paddingRight="20sp"
             android:paddingBottom="20sp"
             android:scaleType="fitXY"
             android:src="@drawable/add_photos" />
@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:background="?android:attr/selectableItemBackground"
             android:onClick="search_image"
-            android:paddingLeft="15sp"
+            android:paddingLeft="20sp"
             android:paddingTop="20sp"
             android:paddingRight="30sp"
             android:paddingBottom="20sp"
