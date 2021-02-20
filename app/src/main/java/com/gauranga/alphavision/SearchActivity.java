@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +27,8 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -34,6 +37,7 @@ public class SearchActivity extends AppCompatActivity {
     EditText search;
     File root_dir;
     File[] dirs;
+    LinearLayout search_layout;
 
     // search for images
     // that have the required text
@@ -58,6 +62,21 @@ public class SearchActivity extends AppCompatActivity {
             return;
         }
 
+        // create a timer
+        // to delay searching for images
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // search for image files
+                // given the word entered by the user
+                search(search_word);
+            }
+        },100);
+    }
+
+    // iterate over all the created directories
+    // and then iterate over all the image files
+    public void search(String search_word) {
         for (File dir : dirs) {
             for (File image_file : dir.listFiles()) {
                 // get the image in bitmap format
@@ -100,9 +119,10 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        recyclerView = findViewById(R.id.searchRecyclerView);
+        // list containing the image files
         image_files = new LinkedList<>();
         search = findViewById(R.id.searchImageText);
+        recyclerView = findViewById(R.id.searchRecyclerView);
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all the data is stored
