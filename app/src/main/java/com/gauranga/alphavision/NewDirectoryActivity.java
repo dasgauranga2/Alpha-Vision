@@ -57,6 +57,15 @@ public class NewDirectoryActivity extends AppCompatActivity {
         // get the name of the directory we want to create
         String name = directory_name.getText().toString();
 
+        if (name.length()==0) {
+            Toast.makeText(getApplicationContext(), "ENTER DIRECTORY NAME", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (image_uris.size()==0) {
+            Toast.makeText(getApplicationContext(), "NO IMAGES ADDED", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all data is stored
         File root_dir = wrapper.getDir("IMAGES6", MODE_PRIVATE);

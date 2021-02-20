@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C2CFFF"
     tools:context=".NewDirectoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="50dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/button_bg"
+        android:background="@drawable/button_bg2"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -34,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/button_bg2"
             android:padding="15sp"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/camera" />
@@ -44,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/transparent"
+            android:background="@drawable/button_bg2"
             android:onClick="add_image_gallery"
             android:padding="15sp"
             android:scaleType="fitXY"
@@ -53,15 +54,15 @@
 
     <Button
         android:id="@+id/createDirectoryButton"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
-        android:background="@drawable/button_bg"
+        android:background="@drawable/button_bg2"
         android:onClick="create_directory"
         android:text="CREATE"
         android:textColor="@android:color/white"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -73,8 +74,14 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="25dp"
         android:ems="10"
+        android:fontFamily="@font/roboto_mono"
         android:hint="Type directory name"
-        android:inputType="textPersonName"
+        android:inputType="textVisiblePassword"
+        android:textColor="@color/white"
+        android:textColorHighlight="@color/white"
+        android:textColorHint="#FFFFFF"
+        android:textColorLink="@color/white"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/createDirectoryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
