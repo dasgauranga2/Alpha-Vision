@@ -1,13 +1,27 @@
 package com.gauranga.alphavision;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContextWrapper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -17,11 +31,68 @@ public class SearchActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     List<File> image_files;
+    EditText search;
     File root_dir;
     File[] dirs;
 
+    // search for images
+    // that have the required text
     public void search_images(View view) {
-        Toast.makeText(getApplicationContext(), "BUTTON CLICKED", Toast.LENGTH_SHORT).show();
+        image_files = new LinkedList<>();
+        setup_recyclerview();
+
+        // hide the keyboard if open
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // get the word entered by the user
+        String search_word = search.getText().toString().toLowerCase();
+        // check if the word entered by
+        // the user has zero length
+        if (search_word.length() == 0) {
+            return;
+        }
+
+        for (File dir : dirs) {
+            for (File image_file : dir.listFiles()) {
+                // get the image in bitmap format
+                Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
+
+                InputImage image = InputImage.fromBitmap(bitmap,0);
+                TextRecognizer recognizer = TextRecognition.getClient();
+                // process the image
+                Task<Text> result = recognizer.process(image)
+                        .addOnSuccessListener(new OnSuccessListener<Text>() {
+                            @Override
+                            public void onSuccess(Text visionText) {
+                                // for each image
+                                // iterate over blocks of text
+                                for (Text.TextBlock block : visionText.getTextBlocks()) {
+                                    // block of text in lowercase
+                                    String blockText = block.getText().toLowerCase();
+                                    // check if the block of text
+                                    // contains the word entered by the user
+                                    if (blockText.contains(search_word)) {
+                                        image_files.add(image_file);
+                                        setup_recyclerview();
+                                        break;
+                                    }
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(),"IMAGE PROCESSING FAILED",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        }
     }
 
     @Override
@@ -31,15 +102,17 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.searchRecyclerView);
         image_files = new LinkedList<>();
+        search = findViewById(R.id.searchImageText);
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all the data is stored
         root_dir = wrapper.getDir("IMAGES6", MODE_PRIVATE);
         // array of all the sub-directories we created
         dirs = root_dir.listFiles();
+        // iterate all the sub-directories
         for (File dir : dirs) {
+            // iterate all the image files
             for (File image_file : dir.listFiles()) {
-                // add all the image files
                 image_files.add(image_file);
             }
         }
@@ -47,6 +120,7 @@ public class SearchActivity extends AppCompatActivity {
         setup_recyclerview();
     }
 
+    // setup the recyclerview
     public void setup_recyclerview() {
         SearchAdapter searchAdapter = new SearchAdapter(this,image_files);
         recyclerView.setAdapter(searchAdapter);
