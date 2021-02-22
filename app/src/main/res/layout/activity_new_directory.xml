@@ -36,6 +36,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/button_bg2"
+            android:onClick="add_image_camera"
             android:padding="15sp"
             android:scaleType="fitXY"
             app:srcCompat="@drawable/camera" />

@@ -3,9 +3,11 @@ package com.gauranga.alphavision;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ActivityNotFoundException;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +16,7 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -34,22 +37,56 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class NewDirectoryActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 200;
     List<Uri> image_uris;
     List<Integer> image_orientations;
     EditText directory_name;
+    Uri camera_image_uri;
+    File camera_image_file;
 
     // add new image to the directory
+    // using the gallery
     public void add_image_gallery(View view) {
         // create an intent to launch the gallery
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE);
+    }
+
+    // add new image to the directory
+    // using the camera
+    public void add_image_camera(View view) {
+        // create an intent to launch the camera
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // check if a camera is available
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // create the image file
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // check if the image file was successfully created
+            if (photoFile != null) {
+                // reference to the image file
+                camera_image_file = photoFile;
+                // uri where the image will be stored
+                camera_image_uri = FileProvider.getUriForFile(this,
+                        "com.gauranga.alphavision",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, camera_image_uri);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
     }
 
     // create a new directory
@@ -100,7 +137,7 @@ public class NewDirectoryActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the image is successfully retrieved
+        // check if the image is successfully retrieved from the gallery
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
             // get the image in uri format
             Uri image_uri = data.getData();
@@ -114,6 +151,44 @@ public class NewDirectoryActivity extends AppCompatActivity {
             int orientation = -1;
             if (cur != null && cur.moveToFirst()) {
                 orientation = cur.getInt(cur.getColumnIndex(orientationColumn[0]));
+            }
+            // add the image orientation to the list
+            image_orientations.add(orientation);
+        }
+        else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // get the image in uri format
+            Uri image_uri = camera_image_uri;
+            // add the image uri to the list
+            image_uris.add(image_uri);
+            // setup the recycler view
+            setup_recyclerview();
+            // get the orientation of the image
+            ExifInterface ei = null;
+            try {
+                ei = new ExifInterface(camera_image_file.getPath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int orientation = -1;
+            int img_ori = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+            switch(img_ori) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    orientation = 90;
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    orientation = 180;
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    orientation = 270;
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    orientation = 0;
             }
             // add the image orientation to the list
             image_orientations.add(orientation);
@@ -168,5 +243,23 @@ public class NewDirectoryActivity extends AppCompatActivity {
         NewDirectoryAdapter newDirectoryAdapter = new NewDirectoryAdapter(this,image_uris);
         recyclerView.setAdapter(newDirectoryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }
