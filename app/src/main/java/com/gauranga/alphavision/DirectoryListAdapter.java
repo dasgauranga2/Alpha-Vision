@@ -46,7 +46,9 @@ public class DirectoryListAdapter extends RecyclerView.Adapter<DirectoryListAdap
             public void onClick(View v) {
                 Intent intent = new Intent(context,ImageListActivity.class);
                 // pass the path of the image directory clicked
-                intent.putExtra("DIR_NAME",image_dirs[position].getAbsolutePath());
+                intent.putExtra("DIR_PATH",image_dirs[position].getAbsolutePath());
+                // pass the name of the image directory clicked
+                intent.putExtra("DIR_NAME",image_dirs[position].getName());
                 context.startActivity(intent);
             }
         });

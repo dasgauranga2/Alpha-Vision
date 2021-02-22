@@ -13,5 +13,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dirText" />
+
+    <TextView
+        android:id="@+id/dirText"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="#50BD00"
+        android:fontFamily="@font/overpass_bold"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingLeft="10sp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
