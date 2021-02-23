@@ -196,7 +196,7 @@ public class SearchActivity extends AppCompatActivity {
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all the data is stored
-        root_dir = wrapper.getDir("IMAGES6", MODE_PRIVATE);
+        root_dir = wrapper.getDir("IMAGES7", MODE_PRIVATE);
         // array of all the sub-directories we created
         dirs = root_dir.listFiles();
         // iterate all the sub-directories

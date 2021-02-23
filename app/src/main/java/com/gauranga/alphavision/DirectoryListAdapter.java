@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
+import java.io.IOException;
 
 public class DirectoryListAdapter extends RecyclerView.Adapter<DirectoryListAdapter.MyViewHolder> {
 

@@ -106,7 +106,7 @@ public class NewDirectoryActivity extends AppCompatActivity {
 
         ContextWrapper wrapper = new ContextWrapper(getApplicationContext());
         // root directory where all data is stored
-        File root_dir = wrapper.getDir("IMAGES6", MODE_PRIVATE);
+        File root_dir = wrapper.getDir("IMAGES7", MODE_PRIVATE);
         // sub-directory we want to create
         File new_dir = new File(root_dir, name);
         // create the sub-directory

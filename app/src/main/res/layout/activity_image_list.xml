@@ -13,21 +13,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dirText" />
+        app:layout_constraintTop_toBottomOf="@+id/dirDetailLayout" />
 
-    <TextView
-        android:id="@+id/dirText"
+    <LinearLayout
+        android:id="@+id/dirDetailLayout"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="70dp"
         android:background="#50BD00"
-        android:fontFamily="@font/overpass_bold"
-        android:gravity="center_vertical"
-        android:letterSpacing="0.02"
-        android:paddingLeft="10sp"
-        android:text="TextView"
-        android:textColor="@color/white"
-        android:textSize="18sp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/dirText"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:fontFamily="@font/overpass_bold"
+            android:gravity="center_vertical"
+            android:letterSpacing="0.02"
+            android:paddingLeft="10sp"
+            android:text="TextView"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/dirDeleteButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="delete_image_dir"
+            android:paddingLeft="25sp"
+            android:paddingTop="20sp"
+            android:paddingRight="25sp"
+            android:paddingBottom="20sp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/delete" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
