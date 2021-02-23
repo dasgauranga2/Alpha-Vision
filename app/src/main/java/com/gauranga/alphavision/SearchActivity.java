@@ -32,6 +32,7 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
@@ -50,6 +51,7 @@ public class SearchActivity extends AppCompatActivity {
     File[] dirs;
     TextView status;
     int images_scanned;
+    HashMap<File, List<String>> file_texts;
 
     // search for images
     // that have the required text
@@ -87,7 +89,7 @@ public class SearchActivity extends AppCompatActivity {
                 search(search_word);
                 //check_empty();
             }
-        },100);
+        },200);
     }
 
     public void update_status() {
@@ -99,43 +101,80 @@ public class SearchActivity extends AppCompatActivity {
     // and then iterate over all the image files
     public void search(String search_word) {
 
-        for (File dir : dirs) {
-            for (File image_file : dir.listFiles()) {
-                // get the image in bitmap format
-                Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
+        // check if the hash map is empty
+        // if the hash map is empty each image file
+        // has to be processed and the corresponding text blocks are saved
+        if (file_texts.size()==0) {
+            for (File dir : dirs) {
+                for (File image_file : dir.listFiles()) {
+                    // get the image in bitmap format
+                    Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
 
-                InputImage image = InputImage.fromBitmap(bitmap,0);
-                TextRecognizer recognizer = TextRecognition.getClient();
-                // process the image
-                Task<Text> result = recognizer.process(image)
-                        .addOnSuccessListener(new OnSuccessListener<Text>() {
-                            @Override
-                            public void onSuccess(Text visionText) {
-                                // if an image has been successfully processed
-                                // update the status to notify the user
-                                update_status();
-                                // for each image
-                                // iterate over blocks of text
-                                for (Text.TextBlock block : visionText.getTextBlocks()) {
-                                    // block of text in lowercase
-                                    String blockText = block.getText().toLowerCase();
-                                    // check if the block of text
-                                    // contains the word entered by the user
-                                    if (blockText.contains(search_word)) {
+                    InputImage image = InputImage.fromBitmap(bitmap,0);
+                    TextRecognizer recognizer = TextRecognition.getClient();
+                    // process the image
+                    Task<Text> result = recognizer.process(image)
+                            .addOnSuccessListener(new OnSuccessListener<Text>() {
+                                @Override
+                                public void onSuccess(Text visionText) {
+                                    // if an image has been successfully processed
+                                    // update the status to notify the user
+                                    update_status();
+                                    // list containing the text blocks for the image
+                                    List<String> text_blocks = new LinkedList<>();
+                                    // boolean variable to check if the image file contains the word entered by the user
+                                    boolean contains_word = false;
+                                    // for each image
+                                    // iterate over blocks of text
+                                    for (Text.TextBlock block : visionText.getTextBlocks()) {
+                                        // block of text in lowercase
+                                        String blockText = block.getText().toLowerCase();
+                                        // check if the block of text
+                                        // contains the word entered by the user
+                                        if (blockText.contains(search_word)) {
+                                            //image_files.add(image_file);
+                                            //setup_recyclerview();
+                                            //break;
+                                            contains_word = true;
+                                        }
+                                        text_blocks.add(blockText);
+                                    }
+                                    if (contains_word) {
                                         image_files.add(image_file);
                                         setup_recyclerview();
-                                        break;
                                     }
+                                    file_texts.put(image_file, text_blocks);
                                 }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getApplicationContext(),"IMAGE PROCESSING FAILED",Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(),"IMAGE PROCESSING FAILED",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
             }
+        }
+        else {
+            // if the hash map is not empty
+            // check for image files that contain the word
+            // we don't have to process each image using text recognizer
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    for (File image_file : file_texts.keySet()) {
+                        update_status();
+                        List<String> texts = file_texts.get(image_file);
+                        for (String text : texts) {
+                            if (text.contains(search_word)) {
+                                image_files.add(image_file);
+                                setup_recyclerview();
+                                break;
+                            }
+                        }
+                    }
+                }
+            });
         }
     }
 
@@ -144,6 +183,8 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // hash map containing list of text blocks for each image file
+        file_texts = new HashMap<>();
         // list containing the image files
         image_files = new LinkedList<>();
         search = findViewById(R.id.searchImageText);
