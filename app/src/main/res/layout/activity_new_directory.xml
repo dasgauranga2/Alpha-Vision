@@ -4,27 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C2CFFF"
+    android:background="#FFFFFF"
     tools:context=".NewDirectoryActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imageRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toTopOf="@+id/directoryNameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <LinearLayout
         android:id="@+id/selectImageLayout"
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginStart="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/button_bg2"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,7 +57,7 @@
         android:layout_width="120dp"
         android:layout_height="60dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/button_bg2"
         android:onClick="create_directory"
         android:text="CREATE"
@@ -76,15 +75,27 @@
         android:layout_marginBottom="25dp"
         android:ems="10"
         android:fontFamily="@font/roboto_mono"
-        android:hint="Type directory name"
+        android:hint="Type folder name"
         android:inputType="textVisiblePassword"
-        android:textColor="@color/white"
-        android:textColorHighlight="@color/white"
-        android:textColorHint="#FFFFFF"
-        android:textColorLink="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/createDirectoryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="#50BD00"
+        android:fontFamily="@font/overpass_bold"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.02"
+        android:paddingLeft="10sp"
+        android:text="Create new folder"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

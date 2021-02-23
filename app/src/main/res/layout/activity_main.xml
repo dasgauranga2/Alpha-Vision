@@ -27,8 +27,7 @@
             android:paddingTop="20sp"
             android:paddingRight="25sp"
             android:paddingBottom="20sp"
-            android:scaleType="fitXY"
-            android:src="@drawable/google_logo" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/titleText"

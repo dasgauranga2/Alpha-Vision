@@ -93,11 +93,12 @@ public class NewDirectoryActivity extends AppCompatActivity {
     public void create_directory(View view) throws IOException {
         // get the name of the directory we want to create
         String name = directory_name.getText().toString();
-
+        // check if directory name is empty
         if (name.length()==0) {
-            Toast.makeText(getApplicationContext(), "ENTER DIRECTORY NAME", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "FOLDER NAME EMPTY", Toast.LENGTH_SHORT).show();
             return;
         }
+        // check if no images are added
         if (image_uris.size()==0) {
             Toast.makeText(getApplicationContext(), "NO IMAGES ADDED", Toast.LENGTH_SHORT).show();
             return;
