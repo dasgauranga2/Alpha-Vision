@@ -1,6 +1,7 @@
 package com.gauranga.alphavision;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -43,14 +44,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.MyViewHold
         Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
         holder.image.setImageBitmap(bitmap);
 
-//        // detect if an item is clicked using the root layout of the 'row.xml' file
-//        holder.main_layout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // display the language of the row that is clicked
-//                Toast.makeText(context, data1[position], Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        // detect if an image is clicked
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ImageDetailActivity.class);
+                intent.putExtra("IMAGE_PATH", image_file.getAbsolutePath());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
