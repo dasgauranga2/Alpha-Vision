@@ -1,6 +1,7 @@
 package com.gauranga.alphavision;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
@@ -45,6 +46,15 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
         File image_file = image_files[position];
         Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
         holder.image.setImageBitmap(bitmap);
+        // detect if an image is clicked
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,ImageDetailActivity.class);
+                intent.putExtra("IMAGE_PATH", image_file.getAbsolutePath());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
