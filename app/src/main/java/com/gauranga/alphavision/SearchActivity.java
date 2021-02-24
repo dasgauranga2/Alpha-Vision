@@ -3,6 +3,7 @@ package com.gauranga.alphavision;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.os.HandlerCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -214,6 +215,7 @@ public class SearchActivity extends AppCompatActivity {
     public void setup_recyclerview() {
         SearchAdapter searchAdapter = new SearchAdapter(this,image_files);
         recyclerView.setAdapter(searchAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
 }
