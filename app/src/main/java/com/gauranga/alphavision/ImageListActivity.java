@@ -1,6 +1,7 @@
 package com.gauranga.alphavision;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -67,6 +68,6 @@ public class ImageListActivity extends AppCompatActivity {
 
         ImageListAdapter imageListAdapter = new ImageListAdapter(this, image_files);
         recyclerView.setAdapter(imageListAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
 }

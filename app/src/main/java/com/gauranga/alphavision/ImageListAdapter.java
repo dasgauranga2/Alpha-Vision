@@ -16,6 +16,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyViewHolder> {
@@ -44,8 +46,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
         // use the data passed to the adapter above
         // and set the data to the text views below
         File image_file = image_files[position];
-        Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
-        holder.image.setImageBitmap(bitmap);
+//        Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
+//        holder.image.setImageBitmap(bitmap);
+        Picasso.get()
+                .load(image_file)
+                .resize(600,600)
+                .into(holder.image);
         // detect if an image is clicked
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,16 +73,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
         // Each row will contain two text views
         // for displaying the data
         ImageView image;
-        // Select the root layout of the 'row.xml' file
-        //ConstraintLayout main_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            // Set the text view from the 'row.xml' file in layout folder
-//            lang = itemView.findViewById(R.id.language);
-//            desc = itemView.findViewById(R.id.description);
             image = itemView.findViewById(R.id.dirImage);
-            //main_layout = itemView.findViewById(R.id.row_layout);
         }
     }
 }
