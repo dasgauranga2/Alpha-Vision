@@ -213,6 +213,7 @@ public class SearchActivity extends AppCompatActivity {
 
     // setup the recyclerview
     public void setup_recyclerview() {
+
         SearchAdapter searchAdapter = new SearchAdapter(this,image_files);
         recyclerView.setAdapter(searchAdapter);
         //recyclerView.setLayoutManager(new LinearLayoutManager(this));
