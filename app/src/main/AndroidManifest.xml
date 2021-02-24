@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/a_logo"
+        android:icon="@mipmap/whitea_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/a_logo_round"
+        android:roundIcon="@mipmap/whitea_logo_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".ImageDetailActivity"></activity>
