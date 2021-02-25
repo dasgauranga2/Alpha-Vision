@@ -133,9 +133,6 @@ public class SearchActivity extends AppCompatActivity {
                                         // check if the block of text
                                         // contains the word entered by the user
                                         if (blockText.contains(search_word)) {
-                                            //image_files.add(image_file);
-                                            //setup_recyclerview();
-                                            //break;
                                             contains_word = true;
                                         }
                                         text_blocks.add(blockText);

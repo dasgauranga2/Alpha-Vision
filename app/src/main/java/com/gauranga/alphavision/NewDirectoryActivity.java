@@ -57,8 +57,8 @@ public class NewDirectoryActivity extends AppCompatActivity {
     // using the gallery
     public void add_image_gallery(View view) {
         // create an intent to launch the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //intent.setType("image/*");
         startActivityForResult(intent, PICK_IMAGE);
     }
 
