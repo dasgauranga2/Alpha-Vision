@@ -1,6 +1,8 @@
 package com.gauranga.alphavision;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,16 +21,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.util.List;
 
 public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyViewHolder> {
 
-    File[] image_files;
+    List<File> image_files;
     Context context;
 
     // the context and the data is passed to the adapter
-    public ImageListAdapter(Context ct, File[] files) {
+    public ImageListAdapter(Context ct, List<File> file_list) {
         context = ct;
-        image_files = files;
+        image_files = file_list;
     }
 
     @NonNull
@@ -44,10 +47,9 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         // use the data passed to the adapter above
-        // and set the data to the text views below
-        File image_file = image_files[position];
-//        Bitmap bitmap = BitmapFactory.decodeFile(image_file.getPath());
-//        holder.image.setImageBitmap(bitmap);
+        // and get the image file
+        File image_file = image_files.get(position);
+        // set the image to the image view
         Picasso.get()
                 .load(image_file)
                 .resize(600,600)
@@ -61,17 +63,45 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
                 context.startActivity(intent);
             }
         });
+        // detect if an image is long clicked
+        holder.image.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // launch an alert dialog
+                new AlertDialog.Builder(context)
+                        .setIcon(R.drawable.alert_triangle)
+                        .setTitle("Do you want to delete the image ?")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                delete_image(position,image_file);
+                            }
+                        })
+                        .setNegativeButton("NO", null).show();
+                return false;
+            }
+        });
+    }
+
+    // delete an image file
+    public void delete_image(int p, File f) {
+        // remove the image from the list
+        image_files.remove(p);
+        // notify that item has been removed
+        notifyItemRemoved(p);
+        notifyItemRangeChanged(p, image_files.size());
+        // delete the file
+        f.delete();
     }
 
     @Override
     public int getItemCount() {
         // return the length of the recycler view
-        return image_files.length;
+        return image_files.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        // Each row will contain two text views
-        // for displaying the data
+        // Each row will display an image
         ImageView image;
 
         public MyViewHolder(@NonNull View itemView) {

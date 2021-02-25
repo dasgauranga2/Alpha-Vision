@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.LinkedList;
+import java.util.List;
 
 public class ImageListActivity extends AppCompatActivity {
 
@@ -28,8 +30,7 @@ public class ImageListActivity extends AppCompatActivity {
         // launch an alert dialog
         new AlertDialog.Builder(this)
                 .setIcon(R.drawable.alert_triangle)
-                .setTitle("Do you want to delete ?")
-                .setMessage("Select the option")
+                .setTitle("Do you want to delete the folder ?")
                 .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -66,7 +67,17 @@ public class ImageListActivity extends AppCompatActivity {
         // set the name of the current directory
         dir_name.setText(intent.getStringExtra("DIR_NAME"));
 
-        ImageListAdapter imageListAdapter = new ImageListAdapter(this, image_files);
+        setup_recyclerview();
+    }
+
+    public void setup_recyclerview() {
+
+        List<File> file_list = new LinkedList<>();
+        for (File f : image_files) {
+            file_list.add(f);
+        }
+
+        ImageListAdapter imageListAdapter = new ImageListAdapter(this, file_list);
         recyclerView.setAdapter(imageListAdapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
