@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -243,7 +244,7 @@ public class NewDirectoryActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.imageRecyclerView);
         NewDirectoryAdapter newDirectoryAdapter = new NewDirectoryAdapter(this,image_uris);
         recyclerView.setAdapter(newDirectoryAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
     }
 
     String currentPhotoPath;

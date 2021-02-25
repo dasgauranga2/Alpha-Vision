@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class NewDirectoryAdapter extends RecyclerView.Adapter<NewDirectoryAdapter.MyViewHolder> {
@@ -40,7 +42,10 @@ public class NewDirectoryAdapter extends RecyclerView.Adapter<NewDirectoryAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.image.setImageURI(image_uris.get(position));
+        Picasso.get()
+                .load(image_uris.get(position))
+                .resize(600,600)
+                .into(holder.image);
     }
 
     @Override
