@@ -15,50 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/statusText" />
 
-    <LinearLayout
-        android:id="@+id/searchLinearLayout"
-        android:layout_width="0dp"
-        android:layout_height="75dp"
-        android:background="#1D77FF"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <EditText
-            android:id="@+id/searchImageText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/roboto_mono"
-            android:hint="Type word"
-            android:inputType="textVisiblePassword"
-            android:paddingLeft="10sp"
-            android:textColor="@color/white"
-            android:textColorHighlight="@color/white"
-            android:textColorHint="#E6E6E6"
-            android:textColorLink="@color/white"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/searchImageButton"
-            style="?borderlessButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="10sp"
-            android:layout_weight="1"
-            android:background="@drawable/button_bg2"
-            android:fontFamily="@font/overpass"
-            android:letterSpacing="0.04"
-            android:onClick="search_images"
-            android:text="SEARCH"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/statusText"
         android:layout_width="0dp"
@@ -74,4 +30,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#1D77FF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/searchImageButton"
+            style="?borderlessButtonStyle"
+            android:layout_width="120dp"
+            android:layout_height="0dp"
+            android:layout_margin="10sp"
+            android:background="@drawable/button_bg2"
+            android:fontFamily="@font/overpass"
+            android:letterSpacing="0.04"
+            android:onClick="search_images"
+            android:text="SEARCH"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/searchImageText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="20dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/roboto_mono"
+            android:hint="Type word"
+            android:inputType="textVisiblePassword"
+            android:paddingLeft="10sp"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:textColorHint="#E6E6E6"
+            android:textColorLink="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/searchImageButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
