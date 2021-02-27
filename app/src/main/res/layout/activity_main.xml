@@ -6,71 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/mainMenuLayout"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:background="#50BD00"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/userAuthButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:hapticFeedbackEnabled="true"
-            android:paddingLeft="25sp"
-            android:paddingTop="20sp"
-            android:paddingRight="25sp"
-            android:paddingBottom="20sp"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:fontFamily="@font/aileron_bold"
-            android:gravity="center_vertical"
-            android:letterSpacing="0.08"
-            android:paddingLeft="5sp"
-            android:text="AlphaVision"
-            android:textColor="@color/white"
-            android:textSize="22sp" />
-
-        <ImageButton
-            android:id="@+id/newDirectoryButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="new_directory"
-            android:paddingLeft="25sp"
-            android:paddingTop="20sp"
-            android:paddingRight="25sp"
-            android:paddingBottom="20sp"
-            android:scaleType="fitXY"
-            android:src="@drawable/add_photos" />
-
-        <ImageButton
-            android:id="@+id/searchDocumentButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="search_image"
-            android:paddingLeft="25sp"
-            android:paddingTop="20sp"
-            android:paddingRight="25sp"
-            android:paddingBottom="20sp"
-            android:scaleType="fitXY"
-            android:src="@drawable/search" />
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/directoryRecyclerView"
         android:layout_width="0dp"
@@ -80,4 +15,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mainMenuLayout" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainMenuLayout"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:background="#50BD00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fontFamily="@font/aileron_bold"
+            android:gravity="center_vertical"
+            android:letterSpacing="0.08"
+            android:paddingLeft="20sp"
+            android:text="AlphaVision"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/newDirectoryButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/newDirectoryButton"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="new_directory"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingRight="20sp"
+            android:paddingBottom="20sp"
+            android:scaleType="fitXY"
+            android:src="@drawable/add_photos"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/searchDocumentButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/searchDocumentButton"
+            android:layout_width="70dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="search_image"
+            android:paddingLeft="20sp"
+            android:paddingTop="20sp"
+            android:paddingRight="20sp"
+            android:paddingBottom="20sp"
+            android:scaleType="fitXY"
+            android:src="@drawable/search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
