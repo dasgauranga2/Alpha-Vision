@@ -15,41 +15,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dirDetailLayout" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dirDetailLayout"
         android:layout_width="0dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:background="#50BD00"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageButton
+            android:id="@+id/dirDeleteButton"
+            android:layout_width="60dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="delete_image_dir"
+            android:paddingLeft="15sp"
+            android:paddingTop="15sp"
+            android:paddingRight="15sp"
+            android:paddingBottom="15sp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/delete" />
+
         <TextView
             android:id="@+id/dirText"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
+            android:layout_height="0dp"
             android:fontFamily="@font/overpass_bold"
             android:gravity="center_vertical"
             android:letterSpacing="0.02"
             android:paddingLeft="10sp"
             android:text="TextView"
             android:textColor="@color/white"
-            android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/dirDeleteButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="?android:attr/selectableItemBackground"
-            android:onClick="delete_image_dir"
-            android:paddingLeft="25sp"
-            android:paddingTop="20sp"
-            android:paddingRight="25sp"
-            android:paddingBottom="20sp"
-            android:scaleType="fitXY"
-            app:srcCompat="@drawable/delete" />
-    </LinearLayout>
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/dirDeleteButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

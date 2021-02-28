@@ -147,6 +147,7 @@ public class SearchActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
+                                    Log.i("PROCESSING_ERROR", e.toString());
                                     Toast.makeText(getApplicationContext(),"IMAGE PROCESSING FAILED",Toast.LENGTH_SHORT).show();
                                 }
                             });
