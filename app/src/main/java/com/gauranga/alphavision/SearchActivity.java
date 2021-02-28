@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.ContextWrapper;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -214,7 +215,20 @@ public class SearchActivity extends AppCompatActivity {
 
         SearchAdapter searchAdapter = new SearchAdapter(this,image_files);
         recyclerView.setAdapter(searchAdapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+
+        int screenSize = getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
+
+        switch(screenSize) {
+            case Configuration.SCREENLAYOUT_SIZE_LARGE:
+            case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+                break;
+            case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+            case Configuration.SCREENLAYOUT_SIZE_SMALL:
+            default:
+                recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        }
     }
 }
